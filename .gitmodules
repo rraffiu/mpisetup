@@ -1,0 +1,6 @@
+[submodule "external/boost-multi"]
+	path = external/boost-multi
+	url = git@gitlab.com:correaa/boost-multi.git
+[submodule "external/boost-mpi3"]
+	path = external/boost-mpi3
+	url = git@gitlab.com:correaa/boost-mpi3.git
