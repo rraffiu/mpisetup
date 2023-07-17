@@ -1,0 +1,3 @@
+[submodule "external/boost-multi"]
+	path = external/boost-multi
+	url = git@gitlab.com:correaa/boost-multi.git
