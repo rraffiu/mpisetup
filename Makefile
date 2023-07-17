@@ -18,7 +18,7 @@ $(TARGET): $(OBJS)
 	$(CC) $(CPPFLAGS) $(LDFLAGS) $(OBJS) -o $@ $(LOADLIBES) $(LDLIBS)
 
 $(OBJS) : $(SRC_DIRS)/%.o: $(SRC_DIRS)/%.cpp
-	$(CC) $(CPPFLAGS) -c -o $@ $<
+	$(CC) $(CPPFLAGS) -I/home/correaa/mpisetup/external/boost-multi/include -c -o $@ $<
 
 .PHONY: clean
 clean:
