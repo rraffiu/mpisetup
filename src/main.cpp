@@ -9,10 +9,10 @@ int main(int argc, char** argv)
     int nkpoints, ik_global;
     int ik_local_start, ik_local_end, mpi_rank;
     bool initialized;
-    int rows = 4;
-    int cols = 6;
+    int const rows = 4;
+    int const cols = 6;
     int iorank = 2;
-    int n_dm = rows*cols;
+
     if (argc < 2)
     {
     	printf("Number of K-points to distribute not provided.\n");
@@ -24,7 +24,6 @@ int main(int argc, char** argv)
 
     multi::array<double, 2> smatrix({rows, cols}, 0.0);
 
-    // std::vector<multi::array<double, 2>> dmatrix(nkpoints, multi::array<double, 2>({rows, cols}));
     multi::array<double, 3> dmatrix({nkpoints, rows, cols});
 
     setupmpi mpikpoint;
@@ -71,8 +70,7 @@ int main(int argc, char** argv)
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Allreduce(MPI_IN_PLACE, &smatrix[0][0], n_dm, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
-    // comm.all_reduce(smatrix.data_elements(), smatrix.num_elements() );
+    MPI_Allreduce(MPI_IN_PLACE, smatrix.data_elements(), smatrix.num_elements(), MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
 
     MPI_Barrier(MPI_COMM_WORLD);
     if (mpi_rank == iorank)
@@ -89,11 +87,7 @@ int main(int argc, char** argv)
          std::cout << "Done printing global sum" <<std::endl;
     }
     MPI_Barrier(MPI_COMM_WORLD);
-    // for (int ik = 0; ik < nkpoints; ik++)
-    // {
-    //     MPI_Allreduce(MPI_IN_PLACE, &dmatrix[ik][0][0], n_dm, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
-    // }
-    MPI_Allreduce(MPI_IN_PLACE, &dmatrix[0][0][0], n_dm, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    MPI_Allreduce(MPI_IN_PLACE, dmatrix.data_elements(), dmatrix.num_elements(), MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
 
     MPI_Barrier(MPI_COMM_WORLD);
 
